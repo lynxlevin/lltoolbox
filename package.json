@@ -33,6 +33,14 @@
       "react-app/jest"
     ]
   },
+  "prettier": {
+    "printWidth": 160,
+    "singleQuote": true,
+    "semi": true,
+    "tabWidth": 4,
+    "trailingComma": "all",
+    "arrowParens": "avoid"
+  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -53,5 +61,14 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
     "prettier": "^3.2.5"
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!@axios)/"
+    ]
+  },
+  "volta": {
+    "node": "20.9.0",
+    "npm": "10.2.3"
   }
 }
