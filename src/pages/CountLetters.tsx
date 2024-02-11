@@ -64,7 +64,8 @@ const CountLetters = () => {
                     onSelect={updateSelection}
                     fullWidth
                     multiline
-                    rows={8}
+                    minRows={8}
+                    maxRows={16}
                 />
                 <Button
                     onClick={() => {
