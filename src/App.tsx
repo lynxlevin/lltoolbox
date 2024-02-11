@@ -11,7 +11,9 @@ function App() {
                     element={
                         <>
                             <br />
-                            <Link to='/count-letters'>文字数計測</Link>
+                            <Link to='/count-letters' style={{ fontSize: '24px' }}>
+                                文字数計測
+                            </Link>
                         </>
                     }
                 />

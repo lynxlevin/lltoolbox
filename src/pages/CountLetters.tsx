@@ -1,5 +1,5 @@
 import CloseIcon from '@mui/icons-material/Close';
-import { AppBar, Button, Container, Dialog, FormControlLabel, Grid, IconButton, Switch, TextField, Toolbar, Tooltip, Typography } from '@mui/material';
+import { AppBar, Button, Container, Dialog, FormControlLabel, Grid, IconButton, Stack, Switch, TextField, Toolbar, Tooltip, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -54,7 +54,7 @@ const CountLetters = () => {
                     </Typography>
                 </Toolbar>
             </AppBar>
-            <Container maxWidth='sm' sx={{ mt: 3, mb: 3 }}>
+            <Container sx={{ mt: 3, mb: 3 }}>
                 <TextField
                     label='テキスト'
                     value={input}
@@ -75,78 +75,82 @@ const CountLetters = () => {
                 >
                     クリア
                 </Button>
-                <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                        <Typography variant='h6'>全文</Typography>
+                <Stack direction={{ xs: 'column', md: 'row' }} spacing={4} maxWidth='md' sx={{ ml: 'auto', mr: 'auto' }}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <Typography variant='h6'>全文</Typography>
+                        </Grid>
+                        <Grid item xs={8}>
+                            <Typography>文字数（スペース込み）</Typography>
+                        </Grid>
+                        <Grid item xs={4} sx={{ textAlign: 'right' }}>
+                            <Typography>{getLengthWithSpace(input)}</Typography>
+                        </Grid>
+                        <Grid item xs={8}>
+                            <Typography>文字数（スペース無視）</Typography>
+                        </Grid>
+                        <Grid item xs={4} sx={{ textAlign: 'right' }}>
+                            <Typography>{getLengthWithoutSpace(input)}</Typography>
+                        </Grid>
+                        <Grid item xs={8}>
+                            <Typography>行数</Typography>
+                        </Grid>
+                        <Grid item xs={4} sx={{ textAlign: 'right' }}>
+                            <Typography>{getLineCount(input)}</Typography>
+                        </Grid>
+                        <Grid item xs={8}>
+                            <Typography>段落数</Typography>
+                        </Grid>
+                        <Grid item xs={4} sx={{ textAlign: 'right' }}>
+                            <Typography>{getParagraphCount(input)}</Typography>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={8}>
-                        <Typography>文字数（スペース込み）</Typography>
+                    <Grid container spacing={2}>
+                        <Grid item xs={6}>
+                            <Typography variant='h6'>選択範囲</Typography>
+                        </Grid>
+                        <Grid item xs={6} sx={{ textAlign: 'right' }}>
+                            <Tooltip title='動作が遅い場合は、オフにすることをお勧めします。'>
+                                <FormControlLabel
+                                    control={
+                                        <Switch
+                                            checked={willCountSelection}
+                                            onChange={e => {
+                                                setWillCountSelection(e.target.checked);
+                                                setSelection('');
+                                            }}
+                                        />
+                                    }
+                                    label='計測'
+                                />
+                            </Tooltip>
+                        </Grid>
+                        <Grid item xs={8}>
+                            <Typography>文字数（スペース込み）</Typography>
+                        </Grid>
+                        <Grid item xs={4} sx={{ textAlign: 'right' }}>
+                            <Typography>{getLengthWithSpace(selection)}</Typography>
+                        </Grid>
+                        <Grid item xs={8}>
+                            <Typography>文字数（スペース無視）</Typography>
+                        </Grid>
+                        <Grid item xs={4} sx={{ textAlign: 'right' }}>
+                            <Typography>{getLengthWithoutSpace(selection)}</Typography>
+                        </Grid>
+                        <Grid item xs={8}>
+                            <Typography>行数</Typography>
+                        </Grid>
+                        <Grid item xs={4} sx={{ textAlign: 'right' }}>
+                            <Typography>{getLineCount(selection)}</Typography>
+                        </Grid>
+                        <Grid item xs={8}>
+                            <Typography>段落数</Typography>
+                        </Grid>
+                        <Grid item xs={4} sx={{ textAlign: 'right' }}>
+                            <Typography>{getParagraphCount(selection)}</Typography>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={4} sx={{ textAlign: 'right' }}>
-                        <Typography>{getLengthWithSpace(input)}</Typography>
-                    </Grid>
-                    <Grid item xs={8}>
-                        <Typography>文字数（スペース無視）</Typography>
-                    </Grid>
-                    <Grid item xs={4} sx={{ textAlign: 'right' }}>
-                        <Typography>{getLengthWithoutSpace(input)}</Typography>
-                    </Grid>
-                    <Grid item xs={8}>
-                        <Typography>行数</Typography>
-                    </Grid>
-                    <Grid item xs={4} sx={{ textAlign: 'right' }}>
-                        <Typography>{getLineCount(input)}</Typography>
-                    </Grid>
-                    <Grid item xs={8}>
-                        <Typography>段落数</Typography>
-                    </Grid>
-                    <Grid item xs={4} sx={{ textAlign: 'right' }}>
-                        <Typography>{getParagraphCount(input)}</Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Typography variant='h6'>選択範囲</Typography>
-                    </Grid>
-                    <Grid item xs={6} sx={{ textAlign: 'right' }}>
-                        <Tooltip title='動作が遅い場合は、オフにすることをお勧めします。'>
-                            <FormControlLabel
-                                control={
-                                    <Switch
-                                        checked={willCountSelection}
-                                        onChange={e => {
-                                            setWillCountSelection(e.target.checked);
-                                            setSelection('');
-                                        }}
-                                    />
-                                }
-                                label='計測'
-                            />
-                        </Tooltip>
-                    </Grid>
-                    <Grid item xs={8}>
-                        <Typography>文字数（スペース込み）</Typography>
-                    </Grid>
-                    <Grid item xs={4} sx={{ textAlign: 'right' }}>
-                        <Typography>{getLengthWithSpace(selection)}</Typography>
-                    </Grid>
-                    <Grid item xs={8}>
-                        <Typography>文字数（スペース無視）</Typography>
-                    </Grid>
-                    <Grid item xs={4} sx={{ textAlign: 'right' }}>
-                        <Typography>{getLengthWithoutSpace(selection)}</Typography>
-                    </Grid>
-                    <Grid item xs={8}>
-                        <Typography>行数</Typography>
-                    </Grid>
-                    <Grid item xs={4} sx={{ textAlign: 'right' }}>
-                        <Typography>{getLineCount(selection)}</Typography>
-                    </Grid>
-                    <Grid item xs={8}>
-                        <Typography>段落数</Typography>
-                    </Grid>
-                    <Grid item xs={4} sx={{ textAlign: 'right' }}>
-                        <Typography>{getParagraphCount(selection)}</Typography>
-                    </Grid>
-                </Grid>
+                </Stack>
             </Container>
         </Dialog>
     );
