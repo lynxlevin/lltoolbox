@@ -76,8 +76,8 @@ const CountLetters = () => {
                 >
                     クリア
                 </Button>
-                <Stack direction={{ xs: 'column', md: 'row' }} spacing={4} maxWidth='md' sx={{ ml: 'auto', mr: 'auto' }}>
-                    <Grid container spacing={2}>
+                <Stack direction={{ xs: 'column', md: 'row' }} spacing={5} maxWidth='md' sx={{ ml: 'auto', mr: 'auto' }}>
+                    <Grid container>
                         <Grid item xs={12}>
                             <Typography variant='h6'>全文</Typography>
                         </Grid>
@@ -106,12 +106,12 @@ const CountLetters = () => {
                             <Typography>{getParagraphCount(input)}</Typography>
                         </Grid>
                     </Grid>
-                    <Grid container spacing={2}>
+                    <Grid container>
                         <Grid item xs={6}>
                             <Typography variant='h6'>選択範囲</Typography>
                         </Grid>
                         <Grid item xs={6} sx={{ textAlign: 'right' }}>
-                            <Tooltip title='動作が遅い場合は、オフにすることをお勧めします。'>
+                            <Tooltip title='動作が遅い場合は、オフにしてください。'>
                                 <FormControlLabel
                                     control={
                                         <Switch
