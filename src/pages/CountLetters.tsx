@@ -1,6 +1,6 @@
 import CloseIcon from '@mui/icons-material/Close';
 import { AppBar, Button, Container, Dialog, FormControlLabel, Grid, IconButton, Stack, Switch, TextField, Toolbar, Tooltip, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const CountLetters = () => {
@@ -10,30 +10,47 @@ const CountLetters = () => {
     const [selection, setSelection] = useState('');
     const [willCountSelection, setWillCountSelection] = useState(true);
 
+    // MYMEMO: debounce
     const updateSelection = (e: React.SyntheticEvent<HTMLDivElement, Event>) => {
         if (!willCountSelection) return;
         const { selectionStart, selectionEnd } = e.target as HTMLTextAreaElement;
         setSelection(input.slice(selectionStart, selectionEnd));
     };
 
+    // MYMEMO: debounce
+    // MYMEMO: 一つの処理にまとめた方がいいのかも。useMemoでObject? useStateのObjectを更新する形？
     const getLengthWithSpace = (text: string) => {
+        // console.log('getLengthWithSpace');
         return text.replace(/\n/g, '').length.toLocaleString();
     };
 
+    // MYMEMO: debounce
     const getLengthWithoutSpace = (text: string) => {
         return text.replace(/\s|　/g, '').length.toLocaleString();
     };
 
+    // MYMEMO: debounce
     const getLineCount = (text: string) => {
         const newLineCount = text.replace(/\n$/, '').match(/\n/g)?.length ?? 0;
         return (text.length > 0 ? newLineCount + 1 : 0).toLocaleString();
     };
 
+    // MYMEMO: debounce
     const getParagraphCount = (text: string) => {
         const paragraphMarkCount = text.match(/\n(?:　|\s+|「|『|＜|《|〈|≪|（|“|‘|\(|"|')./g)?.length ?? 0;
         return (text.length > 0 ? paragraphMarkCount + 1 : 0).toLocaleString();
     };
 
+    const inputCounts = useMemo(() => {
+        return {
+            lengthWithSpace: getLengthWithSpace(input),
+            lengthWithoutSpace: getLengthWithoutSpace(input),
+            lineCount: getLineCount(input),
+            paragraphCount: getParagraphCount(input),
+        };
+    }, [input]);
+
+    // MYMEMO: 無駄な描画がないかチェック
     return (
         <Dialog fullScreen open={true}>
             <AppBar position='sticky'>
@@ -85,25 +102,25 @@ const CountLetters = () => {
                             <Typography>文字数（スペース込み）</Typography>
                         </Grid>
                         <Grid item xs={4} sx={{ textAlign: 'right' }}>
-                            <Typography>{getLengthWithSpace(input)}</Typography>
+                            <Typography>{inputCounts.lengthWithSpace}</Typography>
                         </Grid>
                         <Grid item xs={8}>
                             <Typography>文字数（スペース無視）</Typography>
                         </Grid>
                         <Grid item xs={4} sx={{ textAlign: 'right' }}>
-                            <Typography>{getLengthWithoutSpace(input)}</Typography>
+                            <Typography>{inputCounts.lengthWithoutSpace}</Typography>
                         </Grid>
                         <Grid item xs={8}>
                             <Typography>行数</Typography>
                         </Grid>
                         <Grid item xs={4} sx={{ textAlign: 'right' }}>
-                            <Typography>{getLineCount(input)}</Typography>
+                            <Typography>{inputCounts.lineCount}</Typography>
                         </Grid>
                         <Grid item xs={8}>
                             <Typography>段落数</Typography>
                         </Grid>
                         <Grid item xs={4} sx={{ textAlign: 'right' }}>
-                            <Typography>{getParagraphCount(input)}</Typography>
+                            <Typography>{inputCounts.paragraphCount}</Typography>
                         </Grid>
                     </Grid>
                     <Grid container>
