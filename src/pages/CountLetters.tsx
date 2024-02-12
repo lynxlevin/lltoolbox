@@ -13,7 +13,6 @@ const CountLetters = () => {
     const [inputDebounce] = useDebounce(input, 500);
 
     const updateSelection = useDebouncedCallback((e: React.SyntheticEvent<HTMLDivElement, Event>) => {
-        if (!willCountSelection) return;
         const { selectionStart, selectionEnd } = e.target as HTMLTextAreaElement;
         setSelection(input.slice(selectionStart, selectionEnd));
     }, 500);
@@ -54,7 +53,6 @@ const CountLetters = () => {
         };
     }, [selection]);
 
-    // MYMEMO: 無駄な描画がないかチェック
     return (
         <Dialog fullScreen open={true}>
             <AppBar position='sticky'>
@@ -82,7 +80,7 @@ const CountLetters = () => {
                     onChange={event => {
                         setInput(event.target.value);
                     }}
-                    onSelect={updateSelection}
+                    onSelect={willCountSelection ? updateSelection : undefined}
                     fullWidth
                     multiline
                     minRows={8}
