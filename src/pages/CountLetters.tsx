@@ -15,7 +15,7 @@ const CountLetters = () => {
     const updateSelection = useDebouncedCallback((e: React.SyntheticEvent<HTMLDivElement, Event>) => {
         const { selectionStart, selectionEnd } = e.target as HTMLTextAreaElement;
         setSelection(input.slice(selectionStart, selectionEnd));
-    }, 500);
+    }, 300); // Should be faster than input (500ms).
 
     const getLengthWithSpace = (text: string) => {
         return text.replace(/\n/g, '').length.toLocaleString();
