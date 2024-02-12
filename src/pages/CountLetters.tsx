@@ -2,7 +2,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { AppBar, Button, Container, Dialog, FormControlLabel, Grid, IconButton, Stack, Switch, TextField, Toolbar, Tooltip, Typography } from '@mui/material';
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDebounce } from 'use-debounce';
+import { useDebounce, useDebouncedCallback } from 'use-debounce';
 
 const CountLetters = () => {
     const navigate = useNavigate();
@@ -12,12 +12,11 @@ const CountLetters = () => {
     const [willCountSelection, setWillCountSelection] = useState(true);
     const [inputDebounce] = useDebounce(input, 500);
 
-    // MYMEMO: debounce
-    const updateSelection = (e: React.SyntheticEvent<HTMLDivElement, Event>) => {
+    const updateSelection = useDebouncedCallback((e: React.SyntheticEvent<HTMLDivElement, Event>) => {
         if (!willCountSelection) return;
         const { selectionStart, selectionEnd } = e.target as HTMLTextAreaElement;
         setSelection(input.slice(selectionStart, selectionEnd));
-    };
+    }, 500);
 
     const getLengthWithSpace = (text: string) => {
         return text.replace(/\n/g, '').length.toLocaleString();
