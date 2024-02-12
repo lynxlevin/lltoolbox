@@ -130,7 +130,7 @@ const CountLetters = () => {
                             <Typography variant='h6'>選択範囲</Typography>
                         </Grid>
                         <Grid item xs={6} sx={{ textAlign: 'right' }}>
-                            <Tooltip title='動作が遅い場合は、オフにしてください。'>
+                            <Tooltip title='動作が遅く感じる場合は、オフにしてみてください。'>
                                 <FormControlLabel
                                     control={
                                         <Switch
