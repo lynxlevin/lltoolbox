@@ -5,8 +5,8 @@ import { useState } from 'react';
 const DilutionCalculator = () => {
     const [originalConcentration, setOriginalConcentration] = useState<Decimal | null>(null);
 
-    const pcr_1_te = originalConcentration === null ? '?' : `1 : ${originalConcentration.mul(10).minus(1)}`;
-    const pcr_2_te = originalConcentration === null ? '?' : `2 : ${originalConcentration.mul(10).minus(1).mul(2)}`;
+    const pcr_1_te = originalConcentration === null ? '?' : originalConcentration.mul(10).minus(1).toString();
+    const pcr_2_te = originalConcentration === null ? '?' : originalConcentration.mul(10).minus(1).mul(2).toString();
 
     return (
         <Dialog fullScreen open={true}>
@@ -22,7 +22,8 @@ const DilutionCalculator = () => {
                 <TextField
                     defaultValue={originalConcentration}
                     onBlur={event => {
-                        setOriginalConcentration(new Decimal(event.target.value));
+                        const number = Number.isNaN(Number(event.target.value)) ? NaN : event.target.value;
+                        setOriginalConcentration(new Decimal(number))
                     }}
                     fullWidth
                 />
@@ -40,7 +41,7 @@ const DilutionCalculator = () => {
                     </Grid>
                     <Grid item xs={6}>
                         <Typography variant="h6" ml={3}>
-                            {pcr_1_te}
+                            1 : {pcr_1_te}
                         </Typography>
                     </Grid>
                     <Grid item xs={6}>
@@ -48,7 +49,7 @@ const DilutionCalculator = () => {
                     </Grid>
                     <Grid item xs={6}>
                         <Typography variant="h5" ml={3} color="red">
-                            {pcr_2_te}
+                            2 : {pcr_2_te}
                         </Typography>
                     </Grid>
                 </Grid>
