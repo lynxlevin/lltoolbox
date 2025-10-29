@@ -1,8 +1,12 @@
 import { AppBar, Container, Dialog, FormLabel, Grid, TextField, Toolbar, Typography } from '@mui/material';
+import Decimal from 'decimal.js';
 import { useState } from 'react';
 
 const DilutionCalculator = () => {
-    const [originalConcentration, setOriginalConcentration] = useState(0);
+    const [originalConcentration, setOriginalConcentration] = useState<Decimal | null>(null);
+
+    const pcr_1_te = originalConcentration === null ? '?' : `1 : ${originalConcentration.mul(10).minus(1)}`;
+    const pcr_2_te = originalConcentration === null ? '?' : `2 : ${originalConcentration.mul(10).minus(1).mul(2)}`;
 
     return (
         <Dialog fullScreen open={true}>
@@ -18,7 +22,7 @@ const DilutionCalculator = () => {
                 <TextField
                     defaultValue={originalConcentration}
                     onBlur={event => {
-                        setOriginalConcentration(Number(event.target.value));
+                        setOriginalConcentration(new Decimal(event.target.value));
                     }}
                     fullWidth
                 />
@@ -36,7 +40,7 @@ const DilutionCalculator = () => {
                     </Grid>
                     <Grid item xs={6}>
                         <Typography variant="h6" ml={3}>
-                            {originalConcentration === 0 ? '?' : `1 : ${originalConcentration * 10 - 1}`}
+                            {pcr_1_te}
                         </Typography>
                     </Grid>
                     <Grid item xs={6}>
@@ -44,7 +48,7 @@ const DilutionCalculator = () => {
                     </Grid>
                     <Grid item xs={6}>
                         <Typography variant="h5" ml={3} color="red">
-                            {originalConcentration === 0 ? '?' : `2 : ${(originalConcentration * 10 - 1) * 2}`}
+                            {pcr_2_te}
                         </Typography>
                     </Grid>
                 </Grid>
